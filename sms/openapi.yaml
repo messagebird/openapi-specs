@@ -1,0 +1,1255 @@
+openapi: 3.0.0
+info:
+  title: MessageBird SMS API
+  version: 1.0.0
+servers:
+  - url: https://rest.messagebird.com/messages
+components:
+  securitySchemes:
+    AccessKey:
+      type: apiKey
+      name: Authorization
+      in: header
+      description: 'Use word "AccessKey" + API Key. Example value: "AccessKey w223tVQTcLO4ufBTuJxjvzwJ22"'
+security:
+  - AccessKey: [ ]
+externalDocs:
+  description: Find our official documentation in the MessageBird Docs
+  url: https://developers.messagebird.com/api
+tags:
+  - name: SMS Messaging
+    description: "MessageBird’s SMS API allows you to send and receive SMS messages to and from any country in the world through a REST API. Each message is identified by a unique random ID so that users can always check the status of a message using the given endpoint.\n\nThe SMS API uses HTTP verbs and a RESTful endpoint structure with an access key that is used as the API Authorization. Request and response payloads are formatted as JSON using UTF-8 encoding and URL encoded values."
+paths:
+  /messages:
+    post:
+      tags:
+        - SMS Messaging
+      summary: Send message
+      description: "MessageBird's Programmable SMS API enables you to programmatically send SMS messages from your web application.\n\nFirst, you need to create a new message object. MessageBird returns the created message object with each request. A maximum of 50 recipients can be entered per request."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [ originator,body,recipients ]
+              properties:
+                originator:
+                  type: string
+                  example: MessageBird
+                  description: The sender of the message. This can be a telephone number (including country code) or an alphanumeric string. In case of an alphanumeric string, the maximum length is 11 characters.
+                body:
+                  type: string
+                  example: '+380936417878'
+                  description: The body of the SMS message.
+                recipients:
+                  type: array
+                  items:
+                    type: string
+                  example: '["380936417878", "380936417878"]'
+                  description: An array of recipients msisdns.
+                groupIds:
+                  type: array
+                  items:
+                    type: string
+                  description: An array of group id's. If provided recipients can be omitted.
+                type:
+                  type: string
+                  enum: [ sms, binary, flash ]
+                  description: "The type of message. Values can be: sms, binary, or flash."
+                reference:
+                  type: string
+                  description: "A client reference. Is required for a status report callback to be sent."
+                reportUrl:
+                  type: string
+                  example: 'https://example.ua/report-here'
+                  description: The status report URL to be used on a per-message basis. This value overrides the standard status report url configured on the customer account.
+                validity:
+                  type: integer
+                  example: 60
+                  description: The amount of seconds that the message is valid. If a message is not delivered within this time, the message will be discarded.
+                gateway:
+                  type: integer
+                  example: 11
+                  description: The SMS route that is used to send the message.
+                typeDetails:
+                  type: object
+                  example: '{"udh":"050003340201"}'
+                  description: A hashmap with extra information.
+                datacoding:
+                  type: string
+                  example: 'unicode'
+                  description: The datacoding used, defaults to plain (GSM 03.38 characters only), or it can be set to unicode (contains non-GSM 03.38 characters) or set to auto and we will set unicode or plain depending on the body content.
+                mclass:
+                  type: integer
+                  example: 1
+                  description: Indicated the message type. 1 is a normal message, 0 is a flash message. (0-3 are valid values).
+                shortenUrls:
+                  type: boolean
+                  example: false
+                  description: \*beta\* Shorten all the URLs present in the message body.
+                scheduledDatetime:
+                  type: integer
+                  example: '2022-05-20T12:50:28Z'
+                  description: The scheduled date and time of the message in RFC3339 format (Y-m-d\TH:i:sP), when you want to schedule a message in the future. Don't set this value when message needs to be send directly.
+              example:
+                recipients: '+380936417878'
+                originator: MessageBird
+                body: Lorem ipsum dolor sit amet.
+                type: binary
+                reference: test
+                reportUrl: https://example.com/callback
+                validity: 30
+                gateway: 11
+                typeDetails:
+                  udh: '050003340201'
+                datacoding: unicode
+                mclass: 1
+                shortenUrls: true
+                scheduledDatetime: null
+      parameters:
+        - name: Content-Type
+          required: true
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Authorization
+          required: true
+          in: header
+          schema:
+            type: string
+          example: "AccessKey wNmtVQTcLO4uf22uJxjvzwJ223"
+      responses:
+        '201':
+          description: SMS successfully created
+          headers:
+            Server:
+              schema:
+                type: string
+                example: nginx
+            Date:
+              schema:
+                type: string
+                example: Fri, 01 Jul 2022 16:16:51 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=UTF-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '602'
+            X-CLOUD-TRACE-CONTEXT:
+              schema:
+                type: string
+                example: 609472ddb704ee264dda14be04b8316d/10684057602197128122;o=0
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: Authorization, Content-Type
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: GET, POST, PUT, PATCH, DELETE
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Pragma:
+              schema:
+                type: string
+                example: no-cache
+            Expires:
+              schema:
+                type: integer
+                example: '0'
+            Cache-Control:
+              schema:
+                type: string
+                example: must-revalidate, post-check=0, pre-check=0
+            Via:
+              schema:
+                type: number
+                example: 1.1 google
+            Alt-Svc:
+              schema:
+                type: string
+                example: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: 201 Created
+                  value:
+                    id: f28bbe526fc14974b3e7e663a6139b53
+                    href: >-
+                      https://rest.messagebird.com/messages/f28bbe526fc14974b3e7e663a6139b53
+                    direction: mt
+                    type: sms
+                    originator: MessageBird
+                    body: Lorem ipsum dolor sit amet.
+                    reference: null
+                    validity: null
+                    gateway: 10
+                    typeDetails: { }
+                    datacoding: plain
+                    mclass: 1
+                    scheduledDatetime: null
+                    createdDatetime: '2022-07-01T16:16:51+00:00'
+                    recipients:
+                      totalCount: 1
+                      totalSentCount: 1
+                      totalDeliveredCount: 0
+                      totalDeliveryFailedCount: 0
+                      items:
+                        - recipient: 380936417878
+                          status: sent
+                          statusDatetime: '2022-07-01T16:16:51+00:00'
+                          messagePartCount: 1
+                example-1:
+                  summary: 201 Created (binary)
+                  value:
+                    id: 1217667de49b4847a7bfeca00ae9ffe3
+                    href: >-
+                      https://rest.messagebird.com/messages/1217667de49b4847a7bfeca00ae9ffe3
+                    direction: mt
+                    type: binary
+                    originator: MessageBird
+                    body: Lorem ipsum dolor sit amet.
+                    reference: test
+                    validity: 30
+                    gateway: 10
+                    typeDetails:
+                      udh: '050003340201'
+                    datacoding: unicode
+                    mclass: 1
+                    scheduledDatetime: null
+                    createdDatetime: '2022-07-01T16:29:24+00:00'
+                    recipients:
+                      totalCount: 1
+                      totalSentCount: 1
+                      totalDeliveredCount: 0
+                      totalDeliveryFailedCount: 0
+                      items:
+                        - recipient: 380936417878
+                          status: sent
+                          statusDatetime: '2022-07-01T16:29:24+00:00'
+                          messagePartCount: 1
+        '401':
+          description: Unauthorized
+          headers:
+            Server:
+              schema:
+                type: string
+                example: nginx
+            Date:
+              schema:
+                type: string
+                example: Fri, 01 Jul 2022 15:50:06 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=UTF-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '107'
+            X-CLOUD-TRACE-CONTEXT:
+              schema:
+                type: string
+                example: 029178701e7fbf15d7c60f809d382dcd/18351579782600652211;o=0
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: Authorization, Content-Type
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: GET, POST, PUT, PATCH, DELETE
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Www-Authenticate:
+              schema:
+                type: string
+                example: Basic realm="REST API authentication"
+            Pragma:
+              schema:
+                type: string
+                example: no-cache
+            Expires:
+              schema:
+                type: integer
+                example: '0'
+            Cache-Control:
+              schema:
+                type: string
+                example: must-revalidate, post-check=0, pre-check=0
+            Via:
+              schema:
+                type: number
+                example: 1.1 google
+            Alt-Svc:
+              schema:
+                type: string
+                example: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                errors:
+                  - code: 2
+                    description: Request not allowed (incorrect access_key)
+                    parameter: access_key
+        '422':
+          description: Unprocessable Entity
+          headers:
+            Server:
+              schema:
+                type: string
+                example: nginx
+            Date:
+              schema:
+                type: string
+                example: Fri, 01 Jul 2022 16:15:29 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=UTF-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '187'
+            X-CLOUD-TRACE-CONTEXT:
+              schema:
+                type: string
+                example: d15abf33427efdc9a1c0de6c99d5236a/9215999667610336736;o=0
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: Authorization, Content-Type
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: GET, POST, PUT, PATCH, DELETE
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Pragma:
+              schema:
+                type: string
+                example: no-cache
+            Expires:
+              schema:
+                type: integer
+                example: '0'
+            Cache-Control:
+              schema:
+                type: string
+                example: must-revalidate, post-check=0, pre-check=0
+            Via:
+              schema:
+                type: number
+                example: 1.1 google
+            Alt-Svc:
+              schema:
+                type: string
+                example: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                errors:
+                  - code: 9
+                    description: >-
+                      no (correct) recipients found. Note: during your test
+                      period you can only send messages to your own number
+                      (+380936417878).
+                    parameter: recipient
+    get:
+      tags:
+        - SMS Messaging
+      summary: List messages
+      parameters:
+        - name: originator
+          in: query
+          schema:
+            type: string
+          description: Display messages by the specified originator.
+          example: ValTesting
+        - name: recipient
+          in: query
+          schema:
+            type: integer
+          description: Display messages for the specified recipient.
+          example: '380936417878'
+        - name: direction
+          in: query
+          schema:
+            type: string
+          description: Display either mt (sent) or mo (received) messages.
+          example: mt
+        - name: limit
+          in: query
+          schema:
+            type: integer
+          description: Limit the amount of messages listed.
+          example: '50'
+        - name: offset
+          in: query
+          schema:
+            type: integer
+          description: Skip first n results.
+          example: '0'
+        - name: searchterm
+          in: query
+          schema:
+            type: string
+          description: >-
+            Display messages including the specified searchterm in recipient and
+            originator
+          example: val
+        - name: type
+          in: query
+          schema:
+            type: string
+          description: Display messages of type sms, binary, or flash
+          example: sms
+        - name: contact_id
+          in: query
+          schema:
+            type: string
+          description: Display messages by contact_id. See Contacts API for more info.
+          example: 61afc0531573b08ddbe36e1c85602827
+        - name: status
+          in: query
+          schema:
+            type: string
+          description: >-
+            Display messages with status scheduled, sent, buffered, delivered,
+            expired, or delivery_failed.
+          example: buffered
+        - name: from
+          in: query
+          schema:
+            type: string
+          description: >-
+            Display messages starting from the specified date in RFC3339 format
+            (Y-m-d\TH:i:sP).
+          example: '2022-05-20T12:50:28Z'
+        - name: until
+          in: query
+          schema:
+            type: string
+          description: >-
+            Display messages until the specified date in RFC3339 format
+            (Y-m-d\TH:i:sP).
+          example: '2022-06-29T12:50:28Z'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Server:
+              schema:
+                type: string
+                example: nginx
+            Date:
+              schema:
+                type: string
+                example: Fri, 01 Jul 2022 16:30:02 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=UTF-8
+            Vary:
+              schema:
+                type: string
+                example: Accept-Encoding
+            X-CLOUD-TRACE-CONTEXT:
+              schema:
+                type: string
+                example: dec7767e25197251fba3a3441721d110/1180880413369990374;o=0
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: Authorization, Content-Type
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: GET, POST, PUT, PATCH, DELETE
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Pragma:
+              schema:
+                type: string
+                example: no-cache
+            Expires:
+              schema:
+                type: integer
+                example: '0'
+            Cache-Control:
+              schema:
+                type: string
+                example: must-revalidate, post-check=0, pre-check=0
+            Content-Encoding:
+              schema:
+                type: string
+                example: gzip
+            Via:
+              schema:
+                type: number
+                example: 1.1 google
+            Alt-Svc:
+              schema:
+                type: string
+                example: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: 200 OK
+                  value:
+                    offset: 0
+                    limit: 20
+                    count: 9
+                    totalCount: 9
+                    links:
+                      first: https://rest.messagebird.com/messages/?offset=0
+                      previous: null
+                      next: null
+                      last: https://rest.messagebird.com/messages/?offset=0
+                    items:
+                      - id: cea5a8d4a82f4b7bb4a053296d5a9ba1
+                        href: >-
+                          https://rest.messagebird.com/messages/cea5a8d4a82f4b7bb4a053296d5a9ba1
+                        direction: mt
+                        type: sms
+                        originator: ValTesting
+                        body: >-
+                          Current time: 2022-06-23 12:41:23.828134 +0300 EEST
+                          m=+0.001717501
+                        reference: null
+                        validity: null
+                        gateway: 10
+                        typeDetails: { }
+                        datacoding: plain
+                        mclass: 1
+                        scheduledDatetime: null
+                        createdDatetime: '2022-06-23T09:41:24+00:00'
+                        recipients:
+                          totalCount: 1
+                          totalSentCount: 1
+                          totalDeliveredCount: 1
+                          totalDeliveryFailedCount: 0
+                          items:
+                            - recipient: 380936417878
+                              originator: null
+                              status: delivered
+                              statusDatetime: '2022-06-23T09:41:31+00:00'
+                              recipientCountry: Ukraine
+                              recipientCountryPrefix: 380
+                              recipientOperator: life:)
+                              messageLength: 66
+                              statusErrorCode: null
+                              statusReason: successfully delivered
+                              price:
+                                amount: 1
+                                currency: TRC
+                              mccmnc: '25506'
+                              mcc: '255'
+                              mnc: '06'
+                              messagePartCount: 1
+                      - id: 281f98b1732b4ee29f68f930b80b2f60
+                        href: >-
+                          https://rest.messagebird.com/messages/281f98b1732b4ee29f68f930b80b2f60
+                        direction: mt
+                        type: sms
+                        originator: ValTesting
+                        body: Hi! This is not your first message
+                        reference: null
+                        validity: null
+                        gateway: 10
+                        typeDetails: { }
+                        datacoding: plain
+                        mclass: 1
+                        scheduledDatetime: null
+                        createdDatetime: '2022-06-23T06:54:41+00:00'
+                        recipients:
+                          totalCount: 1
+                          totalSentCount: 1
+                          totalDeliveredCount: 1
+                          totalDeliveryFailedCount: 0
+                          items:
+                            - recipient: 380936417878
+                              originator: null
+                              status: delivered
+                              statusDatetime: '2022-06-23T06:54:47+00:00'
+                              recipientCountry: Ukraine
+                              recipientCountryPrefix: 380
+                              recipientOperator: life:)
+                              messageLength: 34
+                              statusErrorCode: null
+                              statusReason: successfully delivered
+                              price:
+                                amount: 1
+                                currency: TRC
+                              mccmnc: '25506'
+                              mcc: '255'
+                              mnc: '06'
+                              messagePartCount: 1
+                      - id: 78065add7b144d7cb6909576cbfc5b5e
+                        href: >-
+                          https://rest.messagebird.com/messages/78065add7b144d7cb6909576cbfc5b5e
+                        direction: mt
+                        type: sms
+                        originator: ValTesting
+                        body: qwerty3
+                        reference: null
+                        validity: null
+                        gateway: 10
+                        typeDetails: { }
+                        datacoding: plain
+                        mclass: 1
+                        scheduledDatetime: null
+                        createdDatetime: '2022-06-22T22:29:58+00:00'
+                        recipients:
+                          totalCount: 1
+                          totalSentCount: 1
+                          totalDeliveredCount: 1
+                          totalDeliveryFailedCount: 0
+                          items:
+                            - recipient: 380936417878
+                              originator: null
+                              status: delivered
+                              statusDatetime: '2022-06-22T22:30:05+00:00'
+                              recipientCountry: Ukraine
+                              recipientCountryPrefix: 380
+                              recipientOperator: life:)
+                              messageLength: 7
+                              statusErrorCode: null
+                              statusReason: successfully delivered
+                              price:
+                                amount: 1
+                                currency: TRC
+                              mccmnc: '25506'
+                              mcc: '255'
+                              mnc: '06'
+                              messagePartCount: 1
+                      - id: c81801d34d0b4c29bcf304de906feae1
+                        href: >-
+                          https://rest.messagebird.com/messages/c81801d34d0b4c29bcf304de906feae1
+                        direction: mt
+                        type: sms
+                        originator: ValTesting
+                        body: Hi! This is not your first message
+                        reference: null
+                        validity: null
+                        gateway: 10
+                        typeDetails: { }
+                        datacoding: plain
+                        mclass: 1
+                        scheduledDatetime: null
+                        createdDatetime: '2022-06-22T14:04:22+00:00'
+                        recipients:
+                          totalCount: 1
+                          totalSentCount: 1
+                          totalDeliveredCount: 1
+                          totalDeliveryFailedCount: 0
+                          items:
+                            - recipient: 380936417878
+                              originator: null
+                              status: delivered
+                              statusDatetime: '2022-06-22T14:04:29+00:00'
+                              recipientCountry: Ukraine
+                              recipientCountryPrefix: 380
+                              recipientOperator: life:)
+                              messageLength: 34
+                              statusErrorCode: null
+                              statusReason: successfully delivered
+                              price:
+                                amount: 1
+                                currency: TRC
+                              mccmnc: '25506'
+                              mcc: '255'
+                              mnc: '06'
+                              messagePartCount: 1
+                      - id: e876126d16af4fdfb368c538f7a4d660
+                        href: >-
+                          https://rest.messagebird.com/messages/e876126d16af4fdfb368c538f7a4d660
+                        direction: mt
+                        type: sms
+                        originator: ValTesting
+                        body: Hi! This is not your first message
+                        reference: null
+                        validity: null
+                        gateway: 10
+                        typeDetails: { }
+                        datacoding: plain
+                        mclass: 1
+                        scheduledDatetime: null
+                        createdDatetime: '2022-06-22T14:03:56+00:00'
+                        recipients:
+                          totalCount: 1
+                          totalSentCount: 1
+                          totalDeliveredCount: 1
+                          totalDeliveryFailedCount: 0
+                          items:
+                            - recipient: 380936417878
+                              originator: null
+                              status: delivered
+                              statusDatetime: '2022-06-22T14:04:04+00:00'
+                              recipientCountry: Ukraine
+                              recipientCountryPrefix: 380
+                              recipientOperator: life:)
+                              messageLength: 34
+                              statusErrorCode: null
+                              statusReason: successfully delivered
+                              price:
+                                amount: 1
+                                currency: TRC
+                              mccmnc: '25506'
+                              mcc: '255'
+                              mnc: '06'
+                              messagePartCount: 1
+                      - id: cfe8234a793f4f90833fe6d01731e6fa
+                        href: >-
+                          https://rest.messagebird.com/messages/cfe8234a793f4f90833fe6d01731e6fa
+                        direction: mt
+                        type: sms
+                        originator: ValTesting
+                        body: qwerty2
+                        reference: null
+                        validity: null
+                        gateway: 10
+                        typeDetails: { }
+                        datacoding: plain
+                        mclass: 1
+                        scheduledDatetime: null
+                        createdDatetime: '2022-06-22T01:29:58+00:00'
+                        recipients:
+                          totalCount: 1
+                          totalSentCount: 1
+                          totalDeliveredCount: 1
+                          totalDeliveryFailedCount: 0
+                          items:
+                            - recipient: 380936417878
+                              originator: null
+                              status: delivered
+                              statusDatetime: '2022-06-22T01:30:14+00:00'
+                              recipientCountry: Ukraine
+                              recipientCountryPrefix: 380
+                              recipientOperator: life:)
+                              messageLength: 7
+                              statusErrorCode: null
+                              statusReason: successfully delivered
+                              price:
+                                amount: 1
+                                currency: TRC
+                              mccmnc: '25506'
+                              mcc: '255'
+                              mnc: '06'
+                              messagePartCount: 1
+                      - id: 0f484ecbf51942b5b7f4df62891ea247
+                        href: >-
+                          https://rest.messagebird.com/messages/0f484ecbf51942b5b7f4df62891ea247
+                        direction: mt
+                        type: sms
+                        originator: ValTesting
+                        body: qwerty2
+                        reference: null
+                        validity: null
+                        gateway: 10
+                        typeDetails: { }
+                        datacoding: plain
+                        mclass: 1
+                        scheduledDatetime: null
+                        createdDatetime: '2022-06-22T01:29:58+00:00'
+                        recipients:
+                          totalCount: 1
+                          totalSentCount: 1
+                          totalDeliveredCount: 1
+                          totalDeliveryFailedCount: 0
+                          items:
+                            - recipient: 380936417878
+                              originator: null
+                              status: delivered
+                              statusDatetime: '2022-06-22T01:30:04+00:00'
+                              recipientCountry: Ukraine
+                              recipientCountryPrefix: 380
+                              recipientOperator: life:)
+                              messageLength: 7
+                              statusErrorCode: null
+                              statusReason: successfully delivered
+                              price:
+                                amount: 1
+                                currency: TRC
+                              mccmnc: '25506'
+                              mcc: '255'
+                              mnc: '06'
+                              messagePartCount: 1
+                      - id: 0aa1c53c34d34bda84cc4bc454d95028
+                        href: >-
+                          https://rest.messagebird.com/messages/0aa1c53c34d34bda84cc4bc454d95028
+                        direction: mt
+                        type: sms
+                        originator: ValTesting
+                        body: Hi! This is not your first message
+                        reference: null
+                        validity: null
+                        gateway: 10
+                        typeDetails: { }
+                        datacoding: plain
+                        mclass: 1
+                        scheduledDatetime: null
+                        createdDatetime: '2022-06-21T16:03:00+00:00'
+                        recipients:
+                          totalCount: 1
+                          totalSentCount: 1
+                          totalDeliveredCount: 1
+                          totalDeliveryFailedCount: 0
+                          items:
+                            - recipient: 380936417878
+                              originator: null
+                              status: delivered
+                              statusDatetime: '2022-06-21T16:03:07+00:00'
+                              recipientCountry: Ukraine
+                              recipientCountryPrefix: 380
+                              recipientOperator: life:)
+                              messageLength: 34
+                              statusErrorCode: null
+                              statusReason: successfully delivered
+                              price:
+                                amount: 1
+                                currency: TRC
+                              mccmnc: '25506'
+                              mcc: '255'
+                              mnc: '06'
+                              messagePartCount: 1
+                      - id: cb96c6336c92482797554428a899a225
+                        href: >-
+                          https://rest.messagebird.com/messages/cb96c6336c92482797554428a899a225
+                        direction: mt
+                        type: sms
+                        originator: Test
+                        body: This is a test message
+                        reference: null
+                        validity: null
+                        gateway: 10
+                        typeDetails: { }
+                        datacoding: plain
+                        mclass: 1
+                        scheduledDatetime: null
+                        createdDatetime: '2022-06-21T15:28:58+00:00'
+                        recipients:
+                          totalCount: 1
+                          totalSentCount: 1
+                          totalDeliveredCount: 1
+                          totalDeliveryFailedCount: 0
+                          items:
+                            - recipient: 380936417878
+                              originator: null
+                              status: delivered
+                              statusDatetime: '2022-06-21T15:29:05+00:00'
+                              recipientCountry: Ukraine
+                              recipientCountryPrefix: 380
+                              recipientOperator: life:)
+                              messageLength: 22
+                              statusErrorCode: null
+                              statusReason: successfully delivered
+                              price:
+                                amount: 1
+                                currency: TRC
+                              mccmnc: '25506'
+                              mcc: '255'
+                              mnc: '06'
+                              messagePartCount: 1
+                example-1:
+                  summary: 200 OK (filters)
+                  value:
+                    offset: 0
+                    limit: 50
+                    count: 0
+                    totalCount: 0
+                    links:
+                      first: null
+                      previous: null
+                      next: null
+                      last: null
+                    items: [ ]
+  /messages/{messageId}:
+    get:
+      tags:
+        - SMS Messaging
+      summary: Get message by ID
+      parameters:
+        - name: messageId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: OK
+          headers:
+            Server:
+              schema:
+                type: string
+                example: nginx
+            Date:
+              schema:
+                type: string
+                example: Fri, 01 Jul 2022 16:32:15 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=UTF-8
+            Vary:
+              schema:
+                type: string
+                example: Accept-Encoding
+            X-CLOUD-TRACE-CONTEXT:
+              schema:
+                type: string
+                example: 424d83a17ce1027b0be08ca711f459de/12815502001241441938;o=0
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: Authorization, Content-Type
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: GET, POST, PUT, PATCH, DELETE
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Pragma:
+              schema:
+                type: string
+                example: no-cache
+            Expires:
+              schema:
+                type: integer
+                example: '0'
+            Cache-Control:
+              schema:
+                type: string
+                example: must-revalidate, post-check=0, pre-check=0
+            Content-Encoding:
+              schema:
+                type: string
+                example: gzip
+            Via:
+              schema:
+                type: number
+                example: 1.1 google
+            Alt-Svc:
+              schema:
+                type: string
+                example: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                id: cea5a8d4a82f4b7bb4a053296d5a9ba1
+                href: >-
+                  https://rest.messagebird.com/messages/cea5a8d4a82f4b7bb4a053296d5a9ba1
+                direction: mt
+                type: sms
+                originator: ValTesting
+                body: >-
+                  Current time: 2022-06-23 12:41:23.828134 +0300 EEST
+                  m=+0.001717501
+                reference: null
+                validity: null
+                gateway: 10
+                typeDetails: { }
+                datacoding: plain
+                mclass: 1
+                scheduledDatetime: null
+                createdDatetime: '2022-06-23T09:41:24+00:00'
+                recipients:
+                  totalCount: 1
+                  totalSentCount: 1
+                  totalDeliveredCount: 1
+                  totalDeliveryFailedCount: 0
+                  items:
+                    - recipient: 380936417878
+                      originator: null
+                      status: delivered
+                      statusDatetime: '2022-06-23T09:41:31+00:00'
+                      recipientCountry: Ukraine
+                      recipientCountryPrefix: 380
+                      recipientOperator: life:)
+                      messageLength: 66
+                      statusErrorCode: null
+                      statusReason: successfully delivered
+                      price:
+                        amount: 1
+                        currency: TRC
+                      mccmnc: '25506'
+                      mcc: '255'
+                      mnc: '06'
+                      messagePartCount: 1
+        '404':
+          description: Not found
+          headers:
+            Server:
+              schema:
+                type: string
+                example: nginx
+            Date:
+              schema:
+                type: string
+                example: Fri, 01 Jul 2022 16:32:39 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=UTF-8
+            Vary:
+              schema:
+                type: string
+                example: Accept-Encoding
+            X-CLOUD-TRACE-CONTEXT:
+              schema:
+                type: string
+                example: 5d2f3e5ab78aee9a163a09a425371631/15060188609492822204;o=0
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: Authorization, Content-Type
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: GET, POST, PUT, PATCH, DELETE
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Pragma:
+              schema:
+                type: string
+                example: no-cache
+            Expires:
+              schema:
+                type: integer
+                example: '0'
+            Cache-Control:
+              schema:
+                type: string
+                example: must-revalidate, post-check=0, pre-check=0
+            Content-Encoding:
+              schema:
+                type: string
+                example: gzip
+            Via:
+              schema:
+                type: number
+                example: 1.1 google
+            Alt-Svc:
+              schema:
+                type: string
+                example: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                errors:
+                  - code: 20
+                    description: message not found
+                    parameter: null
+    delete:
+      tags:
+        - SMS Messaging
+      summary: Delete message by ID
+      parameters:
+        - name: messageId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '204':
+          description: No Content
+          headers:
+            Server:
+              schema:
+                type: string
+                example: nginx
+            Date:
+              schema:
+                type: string
+                example: Fri, 01 Jul 2022 16:33:22 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: text/html; charset=UTF-8
+            X-CLOUD-TRACE-CONTEXT:
+              schema:
+                type: string
+                example: 31441a797f670125821a667ac3b8b13a/17519988895223442725;o=0
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: Authorization, Content-Type
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: GET, POST, PUT, PATCH, DELETE
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Pragma:
+              schema:
+                type: string
+                example: no-cache
+            Expires:
+              schema:
+                type: integer
+                example: '0'
+            Cache-Control:
+              schema:
+                type: string
+                example: must-revalidate, post-check=0, pre-check=0
+            Via:
+              schema:
+                type: number
+                example: 1.1 google
+            Alt-Svc:
+              schema:
+                type: string
+                example: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: null
+        '404':
+          description: Not found
+          headers:
+            Server:
+              schema:
+                type: string
+                example: nginx
+            Date:
+              schema:
+                type: string
+                example: Fri, 01 Jul 2022 16:33:02 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=UTF-8
+            Vary:
+              schema:
+                type: string
+                example: Accept-Encoding
+            X-CLOUD-TRACE-CONTEXT:
+              schema:
+                type: string
+                example: bf278fe759e1146bb50caea3e1ad8b5c/18177396641530835636;o=0
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: Authorization, Content-Type
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: GET, POST, PUT, PATCH, DELETE
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Pragma:
+              schema:
+                type: string
+                example: no-cache
+            Expires:
+              schema:
+                type: integer
+                example: '0'
+            Cache-Control:
+              schema:
+                type: string
+                example: must-revalidate, post-check=0, pre-check=0
+            Content-Encoding:
+              schema:
+                type: string
+                example: gzip
+            Via:
+              schema:
+                type: number
+                example: 1.1 google
+            Alt-Svc:
+              schema:
+                type: string
+                example: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                errors:
+                  - code: 20
+                    description: message not found
+                    parameter: null
