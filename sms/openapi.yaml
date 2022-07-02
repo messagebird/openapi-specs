@@ -39,13 +39,13 @@ paths:
                   description: The sender of the message. This can be a telephone number (including country code) or an alphanumeric string. In case of an alphanumeric string, the maximum length is 11 characters.
                 body:
                   type: string
-                  example: '+380936417878'
+                  example: '+380999999999'
                   description: The body of the SMS message.
                 recipients:
                   type: array
                   items:
                     type: string
-                  example: '["380936417878", "380936417878"]'
+                  example: '["380999999999", "380999999999"]'
                   description: An array of recipients msisdns.
                 groupIds:
                   type: array
@@ -92,7 +92,7 @@ paths:
                   example: '2022-05-20T12:50:28Z'
                   description: The scheduled date and time of the message in RFC3339 format (Y-m-d\TH:i:sP), when you want to schedule a message in the future. Don't set this value when message needs to be send directly.
               example:
-                recipients: '+380936417878'
+                recipients: '+380999999999'
                 originator: MessageBird
                 body: Lorem ipsum dolor sit amet.
                 type: binary
@@ -208,7 +208,7 @@ paths:
                       totalDeliveredCount: 0
                       totalDeliveryFailedCount: 0
                       items:
-                        - recipient: 380936417878
+                        - recipient: 380999999999
                           status: sent
                           statusDatetime: '2022-07-01T16:16:51+00:00'
                           messagePartCount: 1
@@ -237,7 +237,7 @@ paths:
                       totalDeliveredCount: 0
                       totalDeliveryFailedCount: 0
                       items:
-                        - recipient: 380936417878
+                        - recipient: 380999999999
                           status: sent
                           statusDatetime: '2022-07-01T16:29:24+00:00'
                           messagePartCount: 1
@@ -382,7 +382,7 @@ paths:
                     description: >-
                       no (correct) recipients found. Note: during your test
                       period you can only send messages to your own number
-                      (+380936417878).
+                      (+380999999999).
                     parameter: recipient
     get:
       tags:
@@ -400,7 +400,7 @@ paths:
           schema:
             type: integer
           description: Display messages for the specified recipient.
-          example: '380936417878'
+          example: '380999999999'
         - name: direction
           in: query
           schema:
@@ -572,7 +572,7 @@ paths:
                           totalDeliveredCount: 1
                           totalDeliveryFailedCount: 0
                           items:
-                            - recipient: 380936417878
+                            - recipient: 380999999999
                               originator: null
                               status: delivered
                               statusDatetime: '2022-06-23T09:41:31+00:00'
@@ -610,7 +610,7 @@ paths:
                           totalDeliveredCount: 1
                           totalDeliveryFailedCount: 0
                           items:
-                            - recipient: 380936417878
+                            - recipient: 380999999999
                               originator: null
                               status: delivered
                               statusDatetime: '2022-06-23T06:54:47+00:00'
@@ -648,7 +648,7 @@ paths:
                           totalDeliveredCount: 1
                           totalDeliveryFailedCount: 0
                           items:
-                            - recipient: 380936417878
+                            - recipient: 380999999999
                               originator: null
                               status: delivered
                               statusDatetime: '2022-06-22T22:30:05+00:00'
@@ -686,7 +686,7 @@ paths:
                           totalDeliveredCount: 1
                           totalDeliveryFailedCount: 0
                           items:
-                            - recipient: 380936417878
+                            - recipient: 380999999999
                               originator: null
                               status: delivered
                               statusDatetime: '2022-06-22T14:04:29+00:00'
@@ -724,7 +724,7 @@ paths:
                           totalDeliveredCount: 1
                           totalDeliveryFailedCount: 0
                           items:
-                            - recipient: 380936417878
+                            - recipient: 380999999999
                               originator: null
                               status: delivered
                               statusDatetime: '2022-06-22T14:04:04+00:00'
@@ -762,7 +762,7 @@ paths:
                           totalDeliveredCount: 1
                           totalDeliveryFailedCount: 0
                           items:
-                            - recipient: 380936417878
+                            - recipient: 380999999999
                               originator: null
                               status: delivered
                               statusDatetime: '2022-06-22T01:30:14+00:00'
@@ -800,7 +800,7 @@ paths:
                           totalDeliveredCount: 1
                           totalDeliveryFailedCount: 0
                           items:
-                            - recipient: 380936417878
+                            - recipient: 380999999999
                               originator: null
                               status: delivered
                               statusDatetime: '2022-06-22T01:30:04+00:00'
@@ -838,7 +838,7 @@ paths:
                           totalDeliveredCount: 1
                           totalDeliveryFailedCount: 0
                           items:
-                            - recipient: 380936417878
+                            - recipient: 380999999999
                               originator: null
                               status: delivered
                               statusDatetime: '2022-06-21T16:03:07+00:00'
@@ -876,7 +876,7 @@ paths:
                           totalDeliveredCount: 1
                           totalDeliveryFailedCount: 0
                           items:
-                            - recipient: 380936417878
+                            - recipient: 380999999999
                               originator: null
                               status: delivered
                               statusDatetime: '2022-06-21T15:29:05+00:00'
@@ -1013,7 +1013,7 @@ paths:
                   totalDeliveredCount: 1
                   totalDeliveryFailedCount: 0
                   items:
-                    - recipient: 380936417878
+                    - recipient: 380999999999
                       originator: null
                       status: delivered
                       statusDatetime: '2022-06-23T09:41:31+00:00'
