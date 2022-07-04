@@ -123,10 +123,6 @@ paths:
         '201':
           description: SMS successfully created
           headers:
-            Server:
-              schema:
-                type: string
-                example: nginx
             Date:
               schema:
                 type: string
@@ -139,10 +135,6 @@ paths:
               schema:
                 type: integer
                 example: '602'
-            X-CLOUD-TRACE-CONTEXT:
-              schema:
-                type: string
-                example: 609472ddb704ee264dda14be04b8316d/10684057602197128122;o=0
             Access-Control-Allow-Headers:
               schema:
                 type: string
@@ -171,14 +163,6 @@ paths:
               schema:
                 type: string
                 example: must-revalidate, post-check=0, pre-check=0
-            Via:
-              schema:
-                type: number
-                example: 1.1 google
-            Alt-Svc:
-              schema:
-                type: string
-                example: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
           content:
             application/json:
               schema:
@@ -244,10 +228,6 @@ paths:
         '401':
           description: Unauthorized
           headers:
-            Server:
-              schema:
-                type: string
-                example: nginx
             Date:
               schema:
                 type: string
@@ -260,10 +240,6 @@ paths:
               schema:
                 type: integer
                 example: '107'
-            X-CLOUD-TRACE-CONTEXT:
-              schema:
-                type: string
-                example: 029178701e7fbf15d7c60f809d382dcd/18351579782600652211;o=0
             Access-Control-Allow-Headers:
               schema:
                 type: string
@@ -296,14 +272,6 @@ paths:
               schema:
                 type: string
                 example: must-revalidate, post-check=0, pre-check=0
-            Via:
-              schema:
-                type: number
-                example: 1.1 google
-            Alt-Svc:
-              schema:
-                type: string
-                example: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
           content:
             application/json:
               schema:
@@ -316,10 +284,6 @@ paths:
         '422':
           description: Unprocessable Entity
           headers:
-            Server:
-              schema:
-                type: string
-                example: nginx
             Date:
               schema:
                 type: string
@@ -332,10 +296,6 @@ paths:
               schema:
                 type: integer
                 example: '187'
-            X-CLOUD-TRACE-CONTEXT:
-              schema:
-                type: string
-                example: d15abf33427efdc9a1c0de6c99d5236a/9215999667610336736;o=0
             Access-Control-Allow-Headers:
               schema:
                 type: string
@@ -364,14 +324,6 @@ paths:
               schema:
                 type: string
                 example: must-revalidate, post-check=0, pre-check=0
-            Via:
-              schema:
-                type: number
-                example: 1.1 google
-            Alt-Svc:
-              schema:
-                type: string
-                example: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
           content:
             application/json:
               schema:
@@ -467,10 +419,6 @@ paths:
         '200':
           description: OK
           headers:
-            Server:
-              schema:
-                type: string
-                example: nginx
             Date:
               schema:
                 type: string
@@ -483,10 +431,6 @@ paths:
               schema:
                 type: string
                 example: Accept-Encoding
-            X-CLOUD-TRACE-CONTEXT:
-              schema:
-                type: string
-                example: dec7767e25197251fba3a3441721d110/1180880413369990374;o=0
             Access-Control-Allow-Headers:
               schema:
                 type: string
@@ -519,14 +463,6 @@ paths:
               schema:
                 type: string
                 example: gzip
-            Via:
-              schema:
-                type: number
-                example: 1.1 google
-            Alt-Svc:
-              schema:
-                type: string
-                example: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
             Transfer-Encoding:
               schema:
                 type: string
@@ -921,10 +857,6 @@ paths:
         '200':
           description: OK
           headers:
-            Server:
-              schema:
-                type: string
-                example: nginx
             Date:
               schema:
                 type: string
@@ -937,10 +869,6 @@ paths:
               schema:
                 type: string
                 example: Accept-Encoding
-            X-CLOUD-TRACE-CONTEXT:
-              schema:
-                type: string
-                example: 424d83a17ce1027b0be08ca711f459de/12815502001241441938;o=0
             Access-Control-Allow-Headers:
               schema:
                 type: string
@@ -973,14 +901,6 @@ paths:
               schema:
                 type: string
                 example: gzip
-            Via:
-              schema:
-                type: number
-                example: 1.1 google
-            Alt-Svc:
-              schema:
-                type: string
-                example: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
             Transfer-Encoding:
               schema:
                 type: string
@@ -1033,10 +953,6 @@ paths:
         '404':
           description: Not found
           headers:
-            Server:
-              schema:
-                type: string
-                example: nginx
             Date:
               schema:
                 type: string
@@ -1049,10 +965,6 @@ paths:
               schema:
                 type: string
                 example: Accept-Encoding
-            X-CLOUD-TRACE-CONTEXT:
-              schema:
-                type: string
-                example: 5d2f3e5ab78aee9a163a09a425371631/15060188609492822204;o=0
             Access-Control-Allow-Headers:
               schema:
                 type: string
@@ -1085,14 +997,6 @@ paths:
               schema:
                 type: string
                 example: gzip
-            Via:
-              schema:
-                type: number
-                example: 1.1 google
-            Alt-Svc:
-              schema:
-                type: string
-                example: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
             Transfer-Encoding:
               schema:
                 type: string
@@ -1120,10 +1024,6 @@ paths:
         '204':
           description: No Content
           headers:
-            Server:
-              schema:
-                type: string
-                example: nginx
             Date:
               schema:
                 type: string
@@ -1132,10 +1032,6 @@ paths:
               schema:
                 type: string
                 example: text/html; charset=UTF-8
-            X-CLOUD-TRACE-CONTEXT:
-              schema:
-                type: string
-                example: 31441a797f670125821a667ac3b8b13a/17519988895223442725;o=0
             Access-Control-Allow-Headers:
               schema:
                 type: string
@@ -1164,14 +1060,6 @@ paths:
               schema:
                 type: string
                 example: must-revalidate, post-check=0, pre-check=0
-            Via:
-              schema:
-                type: number
-                example: 1.1 google
-            Alt-Svc:
-              schema:
-                type: string
-                example: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
           content:
             text/plain:
               schema:
@@ -1180,10 +1068,6 @@ paths:
         '404':
           description: Not found
           headers:
-            Server:
-              schema:
-                type: string
-                example: nginx
             Date:
               schema:
                 type: string
@@ -1196,10 +1080,6 @@ paths:
               schema:
                 type: string
                 example: Accept-Encoding
-            X-CLOUD-TRACE-CONTEXT:
-              schema:
-                type: string
-                example: bf278fe759e1146bb50caea3e1ad8b5c/18177396641530835636;o=0
             Access-Control-Allow-Headers:
               schema:
                 type: string
@@ -1232,14 +1112,6 @@ paths:
               schema:
                 type: string
                 example: gzip
-            Via:
-              schema:
-                type: number
-                example: 1.1 google
-            Alt-Svc:
-              schema:
-                type: string
-                example: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
             Transfer-Encoding:
               schema:
                 type: string
